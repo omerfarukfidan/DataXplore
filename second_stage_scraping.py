@@ -18,7 +18,6 @@ def get_dizi_ozellikleri(link):
                 if header and data:
                     header_text = header.text.strip()
                     data_text = data.text.strip()
-
                     if "Yayın tarihi" in header_text:
                         ozellikler["Yayın tarihi"] = data_text
                     elif "Durumu" in header_text:
@@ -27,6 +26,8 @@ def get_dizi_ozellikleri(link):
                         ozellikler["Kanal"] = data_text
                     elif "Platform" in header_text:
                         ozellikler["Platform"] = data_text
+                    elif "Başrol" in header_text:
+                        ozellikler["Başrol"] = data_text
                     elif "Sezon sayısı" in header_text:
                         ozellikler["Sezon Sayısı"] = data_text
                     elif "Bölüm sayısı" in header_text:
@@ -37,6 +38,13 @@ def get_dizi_ozellikleri(link):
                         ozellikler["Yönetmen"] = data_text
                     elif "Senarist" in header_text:
                         ozellikler["Senarist"] = data_text
+                    elif "Tema müziği bestecisi" in header_text:
+                        ozellikler["Tema Müziği Bestecisi"] = data_text
+                    elif "Ülke" in header_text:
+                        ozellikler["Ülke"] = data_text
+            konu_icerigi = soup.find('div', {'id': 'mw-content-text'}).find('p')
+            if konu_icerigi:
+                ozellikler["Konu"] = konu_icerigi.text.strip()
 
             return ozellikler
         else:
