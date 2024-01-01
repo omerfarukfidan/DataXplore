@@ -47,3 +47,30 @@ def get_dizi_ozellikleri(link):
         print(f"{link}")
         return None
 
+
+def main():
+    with open("diziler.txt", "r", encoding="utf-8") as file:
+        lines = file.readlines()
+
+    with open("öznitelik.txt", "w", encoding="utf-8") as output_file:
+        for line in lines:
+            link_start = line.find("Link: ") + len("Link: ")
+            link_end = line.find("\n", link_start)
+            link = line[link_start:link_end].strip()
+
+            dizi_adi_start = line.find("Dizi Adı: ") + len("Dizi Adı: ")
+            dizi_adi_end = link_start - 2
+            dizi_adi = line[dizi_adi_start:dizi_adi_end].strip()
+
+            output_file.write(f"\nDizi Adı: {dizi_adi}\n")
+
+            ozellikler = get_dizi_ozellikleri(link)
+
+            if ozellikler:
+                for key, value in ozellikler.items():
+                    output_file.write(f"{key}: {value}\n")
+
+    print("\nÖznitelikler 'öznitelik.txt' dosyasına yazıldı.")
+
+if __name__ == "__main__":
+    main()
